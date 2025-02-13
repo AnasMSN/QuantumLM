@@ -39,7 +39,6 @@ for N in N_values:
                 
                 fig, ax = plt.subplots(figsize=(4, 4))
                 cont = ax.contourf(xvec, xvec, W, 100)
-                ax.set_title(state_name)
                 
                 image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_alpha{alpha}.png")
                 plt.savefig(image_path)
@@ -69,7 +68,6 @@ for N in N_values:
                 
                 fig, ax = plt.subplots(figsize=(4, 4))
                 cont = ax.contourf(xvec, xvec, W, 100)
-                ax.set_title(state_name)
                 
                 image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_alpha{alpha}.png")
                 plt.savefig(image_path)
@@ -99,7 +97,6 @@ for N in N_values:
                 
                 fig, ax = plt.subplots(figsize=(4, 4))
                 cont = ax.contourf(xvec, xvec, W, 100)
-                ax.set_title(state_name)
                 
                 image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_photons{n}.png")
                 plt.savefig(image_path)
@@ -131,7 +128,6 @@ for N in N_values:
                     
                     fig, ax = plt.subplots(figsize=(4, 4))
                     cont = ax.contourf(xvec, xvec, W, 100)
-                    ax.set_title(state_name)
                     
                     image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_photons{n}.png")
                     plt.savefig(image_path)
@@ -161,7 +157,6 @@ for N in N_values:
                 
                 fig, ax = plt.subplots(figsize=(4, 4))
                 cont = ax.contourf(xvec, xvec, W, 100)
-                ax.set_title(state_name)
                 
                 image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_density{density}.png")
                 plt.savefig(image_path)
@@ -190,7 +185,6 @@ for N in N_values:
             
             fig, ax = plt.subplots(figsize=(4, 4))
             cont = ax.contourf(xvec, xvec, W, 100)
-            ax.set_title(state_name)
             
             image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}.png")
             plt.savefig(image_path)

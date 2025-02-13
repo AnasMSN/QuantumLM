@@ -1,0 +1,158 @@
+Test case 1
+Generated text: This is a coherent state with alpha equal to 7, number of qubits equal to 18 in the linear space -5 to 5.
+Ground truth: This is a coherent state with alpha equal to 4, number of qubits equal to 18 in the linear space -5 to 5.
+
+
+Test case 2
+Generated text: This is a thermal state with average number of photons is 5, number of qubits equal to 15 in the linear space -5 to 5.
+Ground truth: This is a thermal state with average number of photons is 5, number of qubits equal to 15 in the linear space -5 to 5.
+
+
+Test case 3
+Generated text: This is a random state with density is 0.9, number of qubits equal to 17 in the linear space -5 to 5.
+Ground truth: This is a random state with density is 0.7, number of qubits equal to 18 in the linear space -5 to 5.
+
+
+Test case 4
+Generated text: This is a random state with density is 0.9, number of qubits equal to 11 in the linear space -5 to 5.
+Ground truth: This is a random state with density is 0.5, number of qubits equal to 11 in the linear space -5 to 5.
+
+
+Test case 5
+Generated text: This is a coherent state with alpha equal to 2, number of qubits equal to 11 in the linear space -5 to 5.
+Ground truth: This is a coherent state with alpha equal to 8, number of qubits equal to 12 in the linear space -10 to 10.
+
+
+Test case 6
+Generated text: This is a thermal state with average number of photons is 2, number of qubits equal to 3 in the linear space -5 to 5.
+Ground truth: This is a thermal state with average number of photons is 1, number of qubits equal to 2 in the linear space -10 to 10.
+
+
+Test case 7
+Generated text: This is a coherent state with alpha equal to 4, number of qubits equal to 3 in the linear space -5 to 5.
+Ground truth: This is a coherent state with alpha equal to 7, number of qubits equal to 3 in the linear space -5 to 5.
+
+
+Test case 8
+Generated text: This is a random state with density is 0.8, number of qubits equal to 12 in the linear space -5 to 5.
+Ground truth: This is a random state with density is 0.1, number of qubits equal to 11 in the linear space -5 to 5.
+
+
+Test case 9
+Generated text: This is a random state with density is 0.5, number of qubits equal to 3 in the linear space -5 to 5.
+Ground truth: This is a random state with density is 0.3, number of qubits equal to 2 in the linear space -10 to 10.
+
+
+Test case 10
+Generated text: This is a coherent state with alpha equal to 1.4142135623730951, number of qubits equal to 5 in the linear space -5 to 5.
+Ground truth: This is a coherent state with alpha equal to 6, number of qubits equal to 4 in the linear space -5 to 5.
+
+
+Test case 11
+Generated text: This is a cat state with alpha equal to 5, number of qubits equal to 6 in the linear space -10 to 10.
+Ground truth: This is a cat state with alpha equal to 5, number of qubits equal to 6 in the linear space -10 to 10.
+
+
+Test case 12
+Generated text: This is a thermal state with average number of photons is 2, number of qubits equal to 12 in the linear space -5 to 5.
+Ground truth: This is a thermal state with average number of photons is 1, number of qubits equal to 13 in the linear space -5 to 5.
+
+
+Test case 13
+Generated text: This is a cat state with alpha equal to 2, number of qubits equal to 17 in the linear space -5 to 5.
+Ground truth: This is a cat state with alpha equal to 1.4142135623730951, number of qubits equal to 15 in the linear space -10 to 10.
+
+
+Test case 14
+Generated text: This is a cat state with alpha equal to 1.4142135623730951, number of qubits equal to 6 in the linear space -10 to 10.
+Ground truth: This is a cat state with alpha equal to 2, number of qubits equal to 6 in the linear space -5 to 5.
+
+
+Test case 15
+Generated text: This is a thermal state with average number of photons is 7, number of qubits equal to 12 in the linear space -5 to 5.
+Ground truth: This is a thermal state with average number of photons is 6, number of qubits equal to 11 in the linear space -5 to 5.
+
+
+Test case 16
+Generated text: This is a coherent state with alpha equal to 4, number of qubits equal to 7 in the linear space -5 to 5.
+Ground truth: This is a coherent state with alpha equal to 4, number of qubits equal to 7 in the linear space -5 to 5.
+
+
+Test case 17
+Generated text: This is a random state with density is 0.7, number of qubits equal to 15 in the linear space -5 to 5.
+Ground truth: This is a random state with density is 0.3, number of qubits equal to 15 in the linear space -10 to 10.
+
+
+Test case 18
+Generated text: This is a cat state with alpha equal to 1, number of qubits equal to 10 in the linear space -10 to 10.
+Ground truth: This is a cat state with alpha equal to 1, number of qubits equal to 10 in the linear space -10 to 10.
+
+
+Test case 19
+Generated text: This is a coherent state with alpha equal to 3, number of qubits equal to 18 in the linear space -5 to 5.
+Ground truth: This is a coherent state with alpha equal to 5, number of qubits equal to 19 in the linear space -5 to 5.
+
+
+Test case 20
+Generated text: This is a random state with density is 0.2, number of qubits equal to 16 in the linear space -5 to 5.
+Ground truth: This is a random state with density is 1.0, number of qubits equal to 16 in the linear space -10 to 10.
+
+
+Test case 21
+Generated text: This is a random state with density is 0.8, number of qubits equal to 12 in the linear space -5 to 5.
+Ground truth: This is a random state with density is 0.1, number of qubits equal to 12 in the linear space -5 to 5.
+
+
+Test case 22
+Generated text: This is a thermal state with average number of photons is 2, number of qubits equal to 12 in the linear space -5 to 5.
+Ground truth: This is a thermal state with average number of photons is 1, number of qubits equal to 14 in the linear space -10 to 10.
+
+
+Test case 23
+Generated text: Random state with density is 0.5.
+Ground truth: This is a cat state with alpha equal to 6, number of qubits equal to 13 in the linear space -5 to 5.
+
+
+Test case 24
+Generated text: This is a coherent state with alpha equal to 2, number of qubits equal to 7 in the linear space -5 to 5.
+Ground truth: This is a coherent state with alpha equal to 3, number of qubits equal to 7 in the linear space -10 to 10.
+
+
+Test case 25
+Generated text: No
+Ground truth: This is a coherent state with alpha equal to 4, number of qubits equal to 4 in the linear space -5 to 5.
+
+
+Test case 26
+Generated text: This is a cat state with alpha equal to 3, number of qubits equal to 11 in the linear space -10 to 10.
+Ground truth: This is a cat state with alpha equal to 4, number of qubits equal to 10 in the linear space -10 to 10.
+
+
+Test case 27
+Generated text: This is a cat state with alpha equal to 8, number of qubits equal to 14 in the linear space -5 to 5.
+Ground truth: This is a cat state with alpha equal to 8, number of qubits equal to 15 in the linear space -5 to 5.
+
+
+Test case 28
+Generated text: This is a cat state with alpha equal to 5, number of qubits equal to 2 in the linear space -5 to 5.
+Ground truth: This is a cat state with alpha equal to 6, number of qubits equal to 2 in the linear space -5 to 5.
+
+
+Test case 29
+Generated text: This is a coherent state with alpha equal to 7, number of qubits equal to 10 in the linear space -5 to 5.
+Ground truth: This is a coherent state with alpha equal to 7, number of qubits equal to 9 in the linear space -5 to 5.
+
+
+Test case 30
+Generated text: This is a random state with density matrix is
+Ground truth: This is a random state with density is 0.3, number of qubits equal to 8 in the linear space -5 to 5.
+
+
+Test case 31
+Generated text: This is a cat state with alpha equal to 0.5, number of qubits equal to 6 in the linear space -10 to 10.
+Ground truth: This is a cat state with alpha equal to 0.5, number of qubits equal to 18 in the linear space -5 to 5.
+
+
+Test case 32
+Generated text: This is a coherent state with alpha equal to 3, number of qubits equal to 17 in the linear space -5 to 5.
+Ground truth: This is a coherent state with alpha equal to 3, number of qubits equal to 18 in the linear space -10 to 10.

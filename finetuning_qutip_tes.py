@@ -131,7 +131,7 @@ class FinetuneQwenVL:
             train_dataset = converted_dataset,
             args = training_args,
         )
-        trainer.train()
+        trainer.train(resume_from_checkpoint=True)
         
 
 if __name__ == "__main__":
@@ -143,12 +143,11 @@ if __name__ == "__main__":
         if column not in data.columns:
             raise ValueError(f"Column '{column}' not found in the CSV file.")
     
-    train_data, test_data = train_test_split(data, test_size=0.2, random_state=42)
     # Shuffle the dataset with a controlled random state
     data = data.sample(frac=1, random_state=42).reset_index(drop=True)
     
     # Split data into train and test sets (80% train, 20% test)
-    train_data, test_data = train_test_split(data, test_size=0.2, random_state=42)
+    train_data, test_data = train_test_split(data, test_size=0.1, random_state=42)
     
     train_data = train_data.dropna().reset_index(drop=True)
 
@@ -169,7 +168,6 @@ if __name__ == "__main__":
     fine_tune_data = []
     for i in range(len(x_train)):
         # print the index for debugging
-        print(f"Index: {i}")
         fine_tune_data.append({
             "image": images[i],
             "input": prompts[i] + x_train[i],
@@ -178,14 +176,14 @@ if __name__ == "__main__":
 
     finetuner = FinetuneQwenVL(
         data=fine_tune_data,
-        epochs=10,
-        learning_rate=5e-5,
+        epochs=50,
+        learning_rate=5e-6,
         warmup_ratio=0.1,
         gradient_accumulation_steps=8,
         optim="adamw_torch_fused",
         model_id="unsloth/Qwen2-VL-7B-Instruct",
-        peft_r=16,
-        peft_alpha=16,
+        peft_r=32,
+        peft_alpha=32,
         peft_dropout=0.0,
     )
 
