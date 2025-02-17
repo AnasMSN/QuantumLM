@@ -97,12 +97,12 @@ qutip_prompts = [
 ]
 
 # Load CSV file
-df = pd.read_csv("metadata-qutip.csv")
+df = pd.read_csv("metadata-qutip-grayscale.csv")
 
 # Assign random prompts to the "prompt" column
 df["prompt"] = [random.choice(qutip_prompts) for _ in range(len(df))]
 
 # Save the updated CSV
-df.to_csv("metadata-qutip-updated.csv", index=False)
+df.to_csv("metadata-qutip-grayscale-updated.csv", index=False)
 
 print("Prompts have been randomly assigned and saved.")

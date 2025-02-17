@@ -62,8 +62,8 @@ def generate_circuit_data():
     sample_distribution = calculate_distribution(MAX_QUBITS, TOTAL_SAMPLES)
     counter = defaultdict(int)
     
-    execution_counter = 8100
-    qubit_executed = 12
+    execution_counter = 21000
+    qubit_executed = 17
 
     # Generate circuits for each qubit count
     for qubits in range(MIN_QUBITS, MAX_QUBITS+1):
@@ -80,7 +80,7 @@ def generate_circuit_data():
             writer = csv.writer(csvfile)
             
             if not file_exists:
-                writer.writerow(['image_path1', 'image_path2', 'number_of_qubits', 'openqasm', 'qiskit', 'quil', 'cirq', 'qobj'  'number_of_shots', 'ground_truth'])
+                writer.writerow(['image_path1', 'image_path2', 'number_of_qubits', 'openqasm', 'qiskit', 'quil', 'cirq', 'qobj', 'number_of_shots', 'ground_truth'])
             
             # Create output directory if it doesn't exist
             image_dir = IMAGE_DIR.format(qubit_number=qubits)

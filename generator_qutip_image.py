@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 import time
 
 # Create output directories
-output_dir = "generated_images_qutip"
+output_dir = "generated_images_qutip_grayscale"
 os.makedirs(output_dir, exist_ok=True)
 
 # Parameters
@@ -38,7 +38,7 @@ for N in N_values:
                 W = wigner(rho_cat, xvec, xvec)
                 
                 fig, ax = plt.subplots(figsize=(4, 4))
-                cont = ax.contourf(xvec, xvec, W, 100)
+                cont = ax.contourf(xvec, xvec, W, 100, cmap='gray')
                 
                 image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_alpha{alpha}.png")
                 plt.savefig(image_path)
@@ -67,7 +67,7 @@ for N in N_values:
                 W = wigner(rho_coherent, xvec, xvec)
                 
                 fig, ax = plt.subplots(figsize=(4, 4))
-                cont = ax.contourf(xvec, xvec, W, 100)
+                cont = ax.contourf(xvec, xvec, W, 100, cmap='gray')
                 
                 image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_alpha{alpha}.png")
                 plt.savefig(image_path)
@@ -96,7 +96,7 @@ for N in N_values:
                 W = wigner(rho_thermal, xvec, xvec)
                 
                 fig, ax = plt.subplots(figsize=(4, 4))
-                cont = ax.contourf(xvec, xvec, W, 100)
+                cont = ax.contourf(xvec, xvec, W, 100, cmap='gray')
                 
                 image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_photons{n}.png")
                 plt.savefig(image_path)
@@ -127,7 +127,7 @@ for N in N_values:
                     W = wigner(rho_fock, xvec, xvec)
                     
                     fig, ax = plt.subplots(figsize=(4, 4))
-                    cont = ax.contourf(xvec, xvec, W, 100)
+                    cont = ax.contourf(xvec, xvec, W, 100, cmap='gray')
                     
                     image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_photons{n}.png")
                     plt.savefig(image_path)
@@ -156,7 +156,7 @@ for N in N_values:
                 W = wigner(rho_random, xvec, xvec)
                 
                 fig, ax = plt.subplots(figsize=(4, 4))
-                cont = ax.contourf(xvec, xvec, W, 100)
+                cont = ax.contourf(xvec, xvec, W, 100, cmap='gray')
                 
                 image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_density{density}.png")
                 plt.savefig(image_path)
@@ -184,7 +184,7 @@ for N in N_values:
             W = wigner(rho_num, xvec, xvec)
             
             fig, ax = plt.subplots(figsize=(4, 4))
-            cont = ax.contourf(xvec, xvec, W, 100)
+            cont = ax.contourf(xvec, xvec, W, 100, cmap='gray')
             
             image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}.png")
             plt.savefig(image_path)
@@ -199,6 +199,6 @@ for N in N_values:
 
 # Save metadata to CSV
 df = pd.DataFrame(data, columns=["image", "type", "prompt", "ground_truth"])
-df.to_csv("metadata-qutip.csv", index=False)
+df.to_csv("metadata-qutip-grayscale.csv", index=False)
 
 print("Image generation and metadata saving completed.")

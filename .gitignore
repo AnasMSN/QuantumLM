@@ -2,5 +2,5 @@ Dataset/
 circuit_images/
 generated_images_qutip/
 model_cp/
-model_cp_qutip/
+model_cp_*/
 unsloth_compiled_cache/

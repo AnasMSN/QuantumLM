@@ -97,7 +97,7 @@ class FinetuneQwenVL:
         converted_dataset = converted_dataset
         training_args = SFTConfig(
             learning_rate=self.learning_rate,
-            output_dir='./model_cp_qutip',
+            output_dir='./model_cp_qwen2.5',
             optim=self.optim,
             logging_steps=1,
             report_to="none",
@@ -131,11 +131,11 @@ class FinetuneQwenVL:
             train_dataset = converted_dataset,
             args = training_args,
         )
-        trainer.train(resume_from_checkpoint=True)
+        trainer.train()
         
 
 if __name__ == "__main__":
-    CSV_FILENAME = 'metadata-qutip-updated.csv' 
+    CSV_FILENAME = 'metadata-qutip-grayscale-updated.csv' 
     data = pd.read_csv(CSV_FILENAME)
     
     required_columns = ['type', 'image', 'ground_truth', 'prompt']
@@ -156,14 +156,6 @@ if __name__ == "__main__":
     images = train_data['image'][:]
     y_train = train_data['ground_truth'][:]
     prompts = train_data['prompt'][:]
-    
-    # get len images,  x_train, y_train, prompts
-    print(f"len(images): {len(images)}")
-    print(f"len(x_train): {len(x_train)}")
-    print(f"len(y_train): {len(y_train)}")
-    print(f"len(prompts): {len(prompts)}")
-    
-    print(images[16])
 
     fine_tune_data = []
     for i in range(len(x_train)):
@@ -176,12 +168,13 @@ if __name__ == "__main__":
 
     finetuner = FinetuneQwenVL(
         data=fine_tune_data,
-        epochs=50,
+        epochs=10,
         learning_rate=5e-6,
         warmup_ratio=0.1,
         gradient_accumulation_steps=8,
         optim="adamw_torch_fused",
-        model_id="unsloth/Qwen2-VL-7B-Instruct",
+        model_id="unsloth/Qwen2.5-VL-7B-Instruct",
+        # model_id="unsloth/llava-v1.6-mistral-7b-hf",
         peft_r=32,
         peft_alpha=32,
         peft_dropout=0.0,

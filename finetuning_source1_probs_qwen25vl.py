@@ -8,6 +8,8 @@ from trl import SFTTrainer, SFTConfig
 from unsloth import is_bf16_supported
 from unsloth.trainer import UnslothVisionDataCollator
 import pandas as pd
+import glob
+import os
 
 class FinetuneQwenVL:
     def __init__(self, 
@@ -134,35 +136,72 @@ class FinetuneQwenVL:
         
 
 if __name__ == "__main__":
-    CSV_FILENAME = 'Dataset/Source1/quantum_circuits_3_qubit.csv' 
-    data = pd.read_csv(CSV_FILENAME)
-    x_train = data['openqasm'][:]
-    image_path_1 = data['image_path1'][:]
-    image_path_2 = data['image_path2'][:]
-    y_train = data['ground_truth'][:]
+    # Define the folder path and pattern for files
+    FOLDER_PATH = 'Dataset/Source0/'
+    FILE_PATTERN = os.path.join(FOLDER_PATH, 'quantum_circuits_*_qubit.csv')
 
-    data = []
+    # Get all matching CSV files
+    csv_files = glob.glob(FILE_PATTERN)
+    csv_files
+    print(csv_files)
+
+    # Initialize list to store processed data
+    data_list = []
     prompt = "I want you to act as a quantum computer specialized in performing Grover’s algorithm. I will type a circuit, and you will reply with what a quantum computer should output. I want you to only reply with the output in a dictionary that contains the top-30 probabilities and nothing else. Circuit:"
 
 
-    for i in range(len(x_train)):
-        data.append({
-            "image": image_path_1[i],
-            "input": prompt + x_train[i],
-            "output": y_train[i],
-        })
+    # Iterate over all CSV files
+    for file in csv_files:
+        print(file)
+        df = pd.read_csv(file)
+
+        # Iterate through each row
+        for _, row in df.iterrows():
+            # Fetch image paths
+            image1 = row['image_path1']
+            image2 = row['image_path2']
+
+            # Create entries linking each image path with each programming language representation
+            for lang in ['openqasm', 'qiskit', 'quil', 'cirq', 'qobj']:
+                data_list.append({
+                    'image': image1,
+                    'input': prompt + row[lang],
+                    'ground_truth': row['ground_truth']
+                })
+                data_list.append({
+                    'image_path': image2,
+                    'input': prompt + row[lang],
+                    'ground_truth': row['ground_truth']
+                })
+    
+    # CSV_FILENAME = 'Dataset/Source1/quantum_circuits_3_qubit.csv' 
+    # data = pd.read_csv(CSV_FILENAME)
+    # x_train = data['openqasm'][:]
+    # image_path_1 = data['image_path1'][:]
+    # image_path_2 = data['image_path2'][:]
+    # y_train = data['ground_truth'][:]
+
+    # data = []
+    
+
+    # for i in range(len(x_train)):
+    #     data.append({
+    #         "image": image_path_1[i],
+    #         "input": prompt + x_train[i],
+    #         "output": y_train[i],
+    #     })
 
     finetuner = FinetuneQwenVL(
-        data=data,
+        data=data_list,
         epochs=40,
         learning_rate=5e-5,
         warmup_ratio=0.1,
         gradient_accumulation_steps=8,
         optim="adamw_torch_fused",
-        model_id="unsloth/Qwen2-VL-2B-Instruct",
-        peft_r=16,
+        model_id="unsloth/Qwen2.5-VL-7B-Instruct",
+        peft_r=32,
         peft_alpha=32,
-        peft_dropout=0.0,
+        peft_dropout=0.05,
     )
 
     finetuner.run()
