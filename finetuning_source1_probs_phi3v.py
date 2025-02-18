@@ -184,7 +184,10 @@ class FinetunePhi3V:
             args=training_args,
             train_dataset=dataset,
         )
-        trainer.train()
+        trainer.train(resume_from_checkpoint=True)
+        
+        # help me turn trainer.train() to include resume from checkpoint
+        
 
         
 
