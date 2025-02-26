@@ -96,14 +96,15 @@ if __name__ == "__main__":
     FOLDER_PATH = 'Dataset/Source0/'
     FILE_PATTERN = os.path.join(FOLDER_PATH, 'quantum_circuits_*_qubit.csv')
 
-    CSV_FILENAME = 'Dataset/Source1/quantum_circuits_3_qubit_test.csv'
+    CSV_FILENAME = 'Dataset/Source1/quantum_circuits_4_qubit.csv'
     data = pd.read_csv(CSV_FILENAME)
-    x_test = data['openqasm'][:]
+    
+    x_test = data['qiskit'][:]
     image_path_1 = data['image_path1'][:]
     image_path_2 = data['image_path2'][:]
     ground_truth = data['ground_truth'][:]
 
-    for i in range(len(x_test)):
+    for i in range(10):
         # generate random number between 0 and 1 to chooose between image_path_1 and image_path_2, import random
         random_number = random.random()
         if random_number < 0.5:
@@ -117,7 +118,7 @@ if __name__ == "__main__":
         user_input = prompt + x_test[i]
         temperature = 1.5
         max_tokens = 500
-        model_id = "unsloth/Qwen2-VL-2B-Instruct"
+        model_id = "microsoft/Phi-3-vision-128k-instruct"
 
         generated_text = run_inference_phi3v(image, user_input, temperature, max_tokens, model_id)
         # generate print for the number of the test case and the generated textn result of generated_text and ground_truth

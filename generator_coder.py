@@ -62,8 +62,8 @@ def generate_circuit_data():
     sample_distribution = calculate_distribution(MAX_QUBITS, TOTAL_SAMPLES)
     counter = defaultdict(int)
     
-    execution_counter = 21000
-    qubit_executed = 17
+    execution_counter = 24300
+    qubit_executed = 20
 
     # Generate circuits for each qubit count
     for qubits in range(MIN_QUBITS, MAX_QUBITS+1):

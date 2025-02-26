@@ -4,3 +4,8 @@ generated_images_qutip/
 model_cp/
 model_cp_*/
 unsloth_compiled_cache/
+__pycache__/
+latex_error.log
+outputs/
+datasets/
+lora_model/

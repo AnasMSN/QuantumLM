@@ -189,7 +189,7 @@ for N in N_values:
             image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}.png")
             plt.savefig(image_path)
             plt.close(fig)
-            
+            # from here, add <think> and </think> to implement reasoning model
             ground_truth = f"This is a {state_name.lower()} with number of qubits equal to {N} in the linear space -{lin_space_idx[idx]} to {lin_space_idx[idx]}."
             data.append([image_path, state_name, "", ground_truth])
     except Exception as e:
