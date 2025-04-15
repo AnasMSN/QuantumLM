@@ -1,5 +1,6 @@
 import torch
-from transformers import AutoProcessor, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments, Trainer
+from transformers import AutoProcessor, AutoModelForCausalLM, BitsAndBytesConfig
+from transformers import TrainingArguments, Trainer
 from peft import get_peft_model, LoraConfig, TaskType
 from PIL import Image
 from transformers import TrainerCallback
@@ -10,9 +11,23 @@ from unsloth.trainer import UnslothVisionDataCollator
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+from torch.utils.data import Dataset
+
+class LazyImageDataset(Dataset):
+    def __init__(self, data, format_fn):
+        self.data = data
+        self.format_fn = format_fn
+
+    def __len__(self):
+        return len(self.data)
+
+    def __getitem__(self, idx):
+        return self.format_fn(self.data[idx])
+
 class FinetuneQwenVL:
     def __init__(self, 
                  data,
+                 eval_data,
                  epochs=1, 
                  learning_rate=1e-4,
                  warmup_ratio=0.1,
@@ -23,44 +38,62 @@ class FinetuneQwenVL:
                  peft_alpha=16,
                  peft_dropout=0.05,
                 ):
+        """
+        Args:
+            data: a list of dicts for training
+            eval_data: a list of dicts for evaluating (2-3 samples for quick tests every epoch)
+        """
         self.epochs = epochs
-        self.device = torch.device("cuda:1" if torch.cuda.is_available() else "cpu")
+        self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         self.model_id = model_id
 
+        # 1) Load base model and tokenizer
         self.base_model, self.tokenizer = FastVisionModel.from_pretrained(
             model_name = self.model_id,
-            load_in_4bit = False,
+            load_in_4bit = True,
             use_gradient_checkpointing = "unsloth",
         )
+        
+        # 2) Wrap with PEFT / LoRA
         self.model = FastVisionModel.get_peft_model(
             self.base_model,
-            finetune_vision_layers     = True, # False if not finetuning vision layers
-            finetune_language_layers   = True, # False if not finetuning language layers
-            finetune_attention_modules = True, # False if not finetuning attention layers
-            finetune_mlp_modules       = True, # False if not finetuning MLP layers
-            r = peft_r,           
-            lora_alpha = peft_alpha,  
+            finetune_vision_layers     = True, # set True if you want vision layers updated
+            finetune_language_layers   = True, # set True if you want language layers updated
+            finetune_attention_modules = True,
+            finetune_mlp_modules       = True,
+            r = peft_r,
+            lora_alpha = peft_alpha,
             lora_dropout = peft_dropout,
             bias = "none",
             random_state = 3407,
-            use_rslora = False,  
+            use_rslora = False,
             loftq_config = None
         )
+        
         self.learning_rate = learning_rate
         self.warmup_ratio = warmup_ratio
         self.gradient_accumulation_steps = gradient_accumulation_steps
         self.optim = optim
         self.data = data
-    
+        self.eval_data = eval_data
+
     def format_data(self, row):
+        """
+        Takes a dictionary with 'image', 'input', 'output'
+        and converts it into the Qwen-VL style of instruction data.
+        """
         image_path = row["image"]
         input_text = row['input']
         output_text = row['output']
+        
         try:
             image = Image.open(image_path).convert("RGB")
-            image = image.resize((336, 336))
+            # If needed, you can also resize or transform:
+            # image = image.resize((336, 336))
         except Exception as e:
-            raise FileNotFoundError(f"Unable to load image at path: {image_path}. Error: {e}")
+            raise FileNotFoundError(
+                f"Unable to load image at path: {image_path}. Error: {e}"
+            )
 
         return {
             "messages": [
@@ -91,18 +124,28 @@ class FinetuneQwenVL:
 
     def run(self):
         """
-        Executes the fine-tuning process.
+        Executes the fine-tuning process, including evaluation
+        on 2-3 test samples at the end of each epoch.
         """
-        converted_dataset = [self.format_data(row) for row in self.data]
-        converted_dataset = converted_dataset
+        # Convert your training and evaluation datasets
+        # converted_train_dataset = [self.format_data(row) for row in self.data]
+        # converted_eval_dataset  = [self.format_data(row) for row in self.eval_data]
+        
+        converted_train_dataset = LazyImageDataset(self.data, self.format_data)
+        converted_eval_dataset  = LazyImageDataset(self.eval_data, self.format_data)
+        
+        # 3) TrainingArguments / SFTConfig
         training_args = SFTConfig(
             learning_rate=self.learning_rate,
             output_dir='./model_cp_qwen2.5',
             optim=self.optim,
             logging_steps=1,
             report_to="none",
+            
+            # Use bf16 if available, else fallback to fp16
             fp16 = not is_bf16_supported(),
             bf16 = is_bf16_supported(),
+            
             logging_first_step=True,
             warmup_ratio=self.warmup_ratio,
             per_device_train_batch_size=1,
@@ -110,32 +153,42 @@ class FinetuneQwenVL:
             logging_dir='./logs',
             gradient_accumulation_steps=self.gradient_accumulation_steps,
             num_train_epochs=self.epochs,
-            weight_decay = 0.01,            # Regularization term for preventing overfitting
-            lr_scheduler_type = "linear",   # Chooses a linear learning rate decay
+            weight_decay = 0.01,            
+            lr_scheduler_type = "linear",   
             seed = 3407,
             logging_strategy = "steps",
-            # load_best_model_at_end = True,
+            
+            # Evaluate at the end of every epoch
+            evaluation_strategy="epoch",
+            
             # You MUST put the below items for vision finetuning:
             remove_unused_columns = False,
-            dataset_text_field = "",
+            dataset_text_field = None,
             dataset_kwargs = {"skip_prepare_dataset": True},
             dataset_num_proc = 4,
-            max_seq_length = 2048,
+            max_seq_length = 1024,
         )
+        
+        # Model in training mode
         FastVisionModel.for_training(self.model)
         
+        # 4) Create SFTTrainer with both train & eval sets
         trainer = SFTTrainer(
             model = self.model,
             tokenizer = self.tokenizer,
-            data_collator = UnslothVisionDataCollator(self.model, self.tokenizer), # Must use!
-            train_dataset = converted_dataset,
+            data_collator = UnslothVisionDataCollator(self.model, self.tokenizer),
+            train_dataset = converted_train_dataset,
+            eval_dataset  = converted_eval_dataset,  # Evaluate on 2-3 items each epoch
             args = training_args,
+            formatting_func = lambda x: x["messages"],
         )
-        trainer.train()
         
+        # 5) Start training. The trainer will evaluate at the end of each epoch
+        trainer.train()
+
 
 if __name__ == "__main__":
-    CSV_FILENAME = 'metadata-qutip-grayscale-updated.csv' 
+    CSV_FILENAME = 'metadata-qutip-color_2d3d_blues.csv' 
     data = pd.read_csv(CSV_FILENAME)
     
     required_columns = ['type', 'image', 'ground_truth', 'prompt']
@@ -146,38 +199,72 @@ if __name__ == "__main__":
     # Shuffle the dataset with a controlled random state
     data = data.sample(frac=1, random_state=42).reset_index(drop=True)
     
-    # Split data into train and test sets (80% train, 20% test)
+    # Filter out data you don't want (e.g., remove type "Number state")
+    # data = data[data['type'] != 'Number state']
+    
+    # Split data into train and test sets
     train_data, test_data = train_test_split(data, test_size=0.1, random_state=42)
     
-    train_data = train_data.dropna().reset_index(drop=True)
+    # Drop rows with NaN and reset indices
+    train_data = train_data.reset_index(drop=True)
+    test_data  = test_data.reset_index(drop=True)
+    
+    print(len(train_data), len(test_data))
+    
+    BEST_PROMPT = (
+        "You are given a grayscale image representing a quantum optical state. "
+        "Your task is to determine the type of the state (e.g., cat state, Fock state, coherent state, thermal state, etc.) "
+        "as well as its key parameters (alpha/number of photons/density, number of qubits, and the linear space range). "
+        "Please provide your answer in the format: "
+        "\"This is a [STATE TYPE] with [KEY parameters] equal to [VALUE], number of qubits equal to [N] in the linear space [LOW] to [HIGH].\""
+    )
 
-
-    x_train = train_data['type'][:]
-    images = train_data['image'][:]
-    y_train = train_data['ground_truth'][:]
-    prompts = train_data['prompt'][:]
+    # Prepare your train_data
+    x_train   = train_data['type'][:]
+    images    = train_data['image'][:]
+    y_train   = train_data['ground_truth'][:]
+    prompts   = BEST_PROMPT
 
     fine_tune_data = []
     for i in range(len(x_train)):
-        # print the index for debugging
         fine_tune_data.append({
             "image": images[i],
-            "input": prompts[i] + x_train[i],
+            "input": prompts,
             "output": y_train[i],
         })
 
+    # For evaluation: pick just 2 or 3 rows from test_data
+    eval_subset = test_data.iloc[:3].copy()
+    
+    x_eval    = eval_subset['type'][:]
+    img_eval  = eval_subset['image'][:]
+    y_eval    = eval_subset['ground_truth'][:]
+    p_eval    = BEST_PROMPT
+
+    eval_data = []
+    for i in range(len(x_eval)):
+        eval_data.append({
+            "image": img_eval[i],
+            "input": p_eval,
+            "output": y_eval[i],
+        })
+        
+    print(train_data)
+
+    # Instantiate FinetuneQwenVL with both train_data and eval_data
     finetuner = FinetuneQwenVL(
         data=fine_tune_data,
-        epochs=10,
+        eval_data=eval_data,  # pass your 2-3 eval samples here
+        epochs=20,
         learning_rate=5e-6,
         warmup_ratio=0.1,
-        gradient_accumulation_steps=8,
+        gradient_accumulation_steps=4,
         optim="adamw_torch_fused",
         model_id="unsloth/Qwen2.5-VL-7B-Instruct",
-        # model_id="unsloth/llava-v1.6-mistral-7b-hf",
-        peft_r=32,
+        peft_r=16,
         peft_alpha=32,
         peft_dropout=0.0,
     )
 
+    # Start the fine-tuning (with evaluation each epoch)
     finetuner.run()

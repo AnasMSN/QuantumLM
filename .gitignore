@@ -9,3 +9,14 @@ latex_error.log
 outputs/
 datasets/
 lora_model/
+wandb/
+pretrained/
+playground/q_state_generator/generated_images_qutip_grayscale/
+generated_images_qutip_color_bigger_linspace/
+generated_images_qutip_color_bigger_linspace_2d3d/
+generated_images_qutip_color_bigger_linspace_2d3d_blues/
+generated_images_qutip_color_bigger_linspace_2d3d_grayscale/
+generated_images_qutip_grayscale_bigger_linspace/
+QLM-Phone/
+.env
+playground/q_state_generator/image_classifier.pth

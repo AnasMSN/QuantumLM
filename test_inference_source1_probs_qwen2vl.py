@@ -92,7 +92,7 @@ def run_inference_qwenvl(image: Image.Image, user_input: str, temperature: float
     return generated_text
 
 if __name__ == "__main__":
-    prompt = "I want you to act as a quantum computer specialized in performing Grover’s algorithm. I will type a circuit, and you will reply with what a quantum computer should output. I want you to only reply with the output in a dictionary that contains the top-30 probabilities and nothing else. Circuit:"
+    prompt = "from qiskit import QuantumCircuit\nfrom qiskit_aer import AerSimulator\nfrom qiskit_ibm_runtime import Sampler\nfrom qiskit.transpiler.preset_passmanagers import generate_preset_pass_manager\ndef run_bell_state_simulator():\n    \"\"\" Define a phi plus bell state using Qiskit, transpile the circuit using pass manager with optimization level as 1, run it using Qiskit Sampler with the Aer simulator as backend and return the counts dictionary.\n"
 
 
     CSV_FILENAME = 'Dataset/Source1/quantum_circuits_3_qubit_test.csv'

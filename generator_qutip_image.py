@@ -6,20 +6,24 @@ from matplotlib import pyplot as plt
 import time
 
 # Create output directories
-output_dir = "generated_images_qutip_grayscale"
+output_dir = "generated_images_qutip_color_bigger_linspace"
 os.makedirs(output_dir, exist_ok=True)
 
 # Parameters
-N_values = [20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1]
-alpha_values = [np.sqrt(2), 0.5, 1, 2, 3, 4, 5, 6, 7, 8]
-n_values = [1, 2, 3, 4, 5, 6, 7, 8]
+N_values = [30, 29, 28, 27, 26, 25, 24, 23, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4, 3, 2]
+alpha_values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+n_values = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 density_values = [0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
 
 # Define linear spaces
 lin_space5 = 5
+lin_space6 = 6
+lin_space7 = 7
+lin_space8 = 8
+lin_space9 = 9
 lin_space10 = 10
-lin_space_idx = [lin_space5, lin_space10]
-lin_space = [np.linspace(-lin_space5, lin_space5,200), np.linspace(-lin_space10,lin_space10,200)]
+lin_space_idx = [lin_space5, lin_space6, lin_space7, lin_space8, lin_space9, lin_space10]
+lin_space = [np.linspace(-lin_space5, lin_space5,200), np.linspace(-lin_space6, lin_space6,200), np.linspace(-lin_space7, lin_space7,200), np.linspace(-lin_space8, lin_space8,200), np.linspace(-lin_space9, lin_space9,200), np.linspace(-lin_space10,lin_space10,200)]
 xvec = lin_space[0]
 
 # Data storage
@@ -38,9 +42,9 @@ for N in N_values:
                 W = wigner(rho_cat, xvec, xvec)
                 
                 fig, ax = plt.subplots(figsize=(4, 4))
-                cont = ax.contourf(xvec, xvec, W, 100, cmap='gray')
+                cont = ax.contourf(xvec, xvec, W, 100, cmap='viridis')
                 
-                image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_alpha{alpha}.png")
+                image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_alpha{alpha}_linspace{lin_space_idx[idx]}.png")
                 plt.savefig(image_path)
                 plt.close(fig)
                 
@@ -54,7 +58,7 @@ for N in N_values:
         
         if counter % 10 == 0:
             # sleep execution for 1 second
-            time.sleep(3)
+            time.sleep(1)
             
 for N in N_values:
     for alpha in alpha_values:
@@ -67,9 +71,9 @@ for N in N_values:
                 W = wigner(rho_coherent, xvec, xvec)
                 
                 fig, ax = plt.subplots(figsize=(4, 4))
-                cont = ax.contourf(xvec, xvec, W, 100, cmap='gray')
+                cont = ax.contourf(xvec, xvec, W, 100, cmap='viridis')
                 
-                image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_alpha{alpha}.png")
+                image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_alpha{alpha}_linspace{lin_space_idx[idx]}.png")
                 plt.savefig(image_path)
                 plt.close(fig)
                 
@@ -82,7 +86,7 @@ for N in N_values:
             
         if counter % 10 == 0:
             # sleep execution for 1 second
-            time.sleep(3)
+            time.sleep(1)
             
 for N in N_values:
     for n in n_values:
@@ -96,9 +100,9 @@ for N in N_values:
                 W = wigner(rho_thermal, xvec, xvec)
                 
                 fig, ax = plt.subplots(figsize=(4, 4))
-                cont = ax.contourf(xvec, xvec, W, 100, cmap='gray')
+                cont = ax.contourf(xvec, xvec, W, 100, cmap='viridis')
                 
-                image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_photons{n}.png")
+                image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_photons{n}_linspace{lin_space_idx[idx]}.png")
                 plt.savefig(image_path)
                 plt.close(fig)
                 
@@ -112,7 +116,7 @@ for N in N_values:
         
         if counter % 10 == 0:
             # sleep execution for 1 second
-            time.sleep(3)
+            time.sleep(1)
             
 for N in N_values:
     for n in n_values:
@@ -127,9 +131,9 @@ for N in N_values:
                     W = wigner(rho_fock, xvec, xvec)
                     
                     fig, ax = plt.subplots(figsize=(4, 4))
-                    cont = ax.contourf(xvec, xvec, W, 100, cmap='gray')
+                    cont = ax.contourf(xvec, xvec, W, 100, cmap='viridis')
                     
-                    image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_photons{n}.png")
+                    image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_photons{n}_linspace{lin_space_idx[idx]}.png")
                     plt.savefig(image_path)
                     plt.close(fig)
                     
@@ -142,7 +146,7 @@ for N in N_values:
             
             if counter % 10 == 0:
                 # sleep execution for 1 second
-                time.sleep(3)
+                time.sleep(1)
             
 for N in N_values:
     for density in density_values:
@@ -156,9 +160,9 @@ for N in N_values:
                 W = wigner(rho_random, xvec, xvec)
                 
                 fig, ax = plt.subplots(figsize=(4, 4))
-                cont = ax.contourf(xvec, xvec, W, 100, cmap='gray')
+                cont = ax.contourf(xvec, xvec, W, 100, cmap='viridis')
                 
-                image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_density{density}.png")
+                image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_density{density}_linspace{lin_space_idx[idx]}.png")
                 plt.savefig(image_path)
                 plt.close(fig)
                 
@@ -171,7 +175,7 @@ for N in N_values:
         
         if counter % 10 == 0:
             # sleep execution for 1 second
-            time.sleep(3)
+            time.sleep(1)
             
 for N in N_values:
     rho_num = num(N)
@@ -184,9 +188,9 @@ for N in N_values:
             W = wigner(rho_num, xvec, xvec)
             
             fig, ax = plt.subplots(figsize=(4, 4))
-            cont = ax.contourf(xvec, xvec, W, 100, cmap='gray')
+            cont = ax.contourf(xvec, xvec, W, 100, cmap='viridis')
             
-            image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}.png")
+            image_path = os.path.join(output_dir, f"{state_name.replace(' ', '_')}_N{N}_linspace{lin_space_idx[idx]}.png")
             plt.savefig(image_path)
             plt.close(fig)
             # from here, add <think> and </think> to implement reasoning model
@@ -199,6 +203,6 @@ for N in N_values:
 
 # Save metadata to CSV
 df = pd.DataFrame(data, columns=["image", "type", "prompt", "ground_truth"])
-df.to_csv("metadata-qutip-grayscale.csv", index=False)
+df.to_csv("metadata-qutip-color.csv", index=False)
 
 print("Image generation and metadata saving completed.")
