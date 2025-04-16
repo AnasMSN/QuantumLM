@@ -22,3 +22,29 @@ generated_images_qutip_color_bigger_linspace_2d3d_blues/Coherent_state_N30_alpha
 </think>
 
 This is a coherent state with α ≈ 1, number of qubits = 30, in the linear space from -6 to 6."
+generated_images_qutip_color_bigger_linspace_2d3d_blues/Thermal_state_N30_photons3_linspace5.png,"<think>
+1. Observe the Wigner function plot shape: The 2D image shows a circular, symmetric distribution, indicating a thermal state. This shape suggests a lack of coherent structure, typical of thermal states.
+
+2. Note the spread: The Wigner function is spread across a range with a peak at the origin, reinforcing the idea of a thermal state, characterized by randomness and Gaussian spread around zero.
+
+3. Determine the average photon number: A thermal state’s spread in phase space often corresponds to a certain average photon number. The visible spread in the plot hints at an average photon number around 3.
+
+4. Determine the number of qubits and linear space: Based on the Wigner function spread, we estimate the linear space to be between -5 and 5. Given this range, the number of qubits for representing this state can be inferred as 30, which aligns with the typical dimension needed for such a spread.
+</think>
+
+This is a thermal state with average photon=3, number of qubits=30, in the linear space from -5 to 5."
+generated_images_qutip_color_bigger_linspace_2d3d_blues/Thermal_state_N30_photons3_linspace6.png,"<think>
+1. **Identify the Wigner Function Characteristics:**
+   - The image shows a Wigner function that is circular and positive everywhere. This suggests a thermal state.
+
+2. **Determine the Average Photon Number:**
+   - A thermal state typically has a Gaussian shape centered at the origin, with the spread indicating the average number of photons. The spread here resembles that of a thermal state with ≈ 3 average photons.
+
+3. **Estimate the Number of Qubits:**
+   - The linear space extends from -6 to 6 in both real and imaginary axes. This range suggests a discretization appropriate for about 30 qubits.
+
+4. **Check Consistency with Typical Quantum Systems:**
+   - A thermal state with an average photon number of 3 is consistent with a Hilbert space dimension managed by 30 qubits, especially given the linear space range.
+</think>
+
+This is a thermal state with average number of photon ≈ 3, number of qubits = 30, in the linear space from -6 to 6."
