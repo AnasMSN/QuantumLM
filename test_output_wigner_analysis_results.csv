@@ -48,3 +48,27 @@ generated_images_qutip_color_bigger_linspace_2d3d_blues/Thermal_state_N30_photon
 </think>
 
 This is a thermal state with average number of photon ≈ 3, number of qubits = 30, in the linear space from -6 to 6."
+generated_images_qutip_color_bigger_linspace_2d3d_blues/Fock_state_N30_photons3_linspace5.png,"<think>
+The Wigner function exhibits circular symmetry with alternating patterns, characteristic of a Fock state. The number of rings around the center usually indicates the photon number. Observing three prominent bright-dark rings implies the state is likely a Fock state with approximately three photons.
+
+The 2D plot's scale extends from -6 to 6, suggesting the state spans a symmetric range in phase space. The linear space typically reflects the grid used for qubit simulation, usually needing more qubits for higher photon numbers and broader space. 
+
+The structure and symmetry in the Wigner function indicate quantized patterns, implying a specific photon number and qubits structured to represent the state in phase space. Observing the scale and typical representation frameworks, such as this Wigner function range, suggests the configuration of the simulator.
+</think>
+
+This is a fock state with photon=3, number of qubits=30 in the linear space -5 to 5."
+generated_images_qutip_color_bigger_linspace_2d3d_blues/Fock_state_N30_photons3_linspace6.png,"<think>
+1. **State Type Identification:**
+   - The Wigner function displays concentric rings with alternating positive and negative values. This pattern is characteristic of a Fock state (or number state).
+
+2. **Number of Photons:**
+   - The number of rings in the Wigner function corresponds to the photon number plus one (n+1). The presence of 4 rings suggests a Fock state with 3 photons because 3+1=4.
+
+3. **Determining the Number of Qubits:**
+   - The blurred edges and spatial extent of the Wigner function usually indicate the number of qubits. This image seems like a 30-qubit system due to the radial extent.
+
+4. **Linear Space:**
+   - The Wigner function has a frame from -6 to 6 in both the real and imaginary parts, indicating the linear space extends from -6 to 6.
+</think>
+
+This is a Fock state with number of photon ≈ 3, number of qubits = 30, in the linear space from -6 to 6."
