@@ -21,3 +21,4 @@ QLM-Phone/
 .env
 playground/q_state_generator/image_classifier.pth
 generated_hushimi_q_blues/
+model_cot_qwen25vl/
